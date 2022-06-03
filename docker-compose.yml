@@ -1,0 +1,19 @@
+version: '3'
+services:
+  database_restaurant:
+    image: postgres
+    container_name: database_restaurant
+    restart: always
+    #ports:
+    #- 4466:4466
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=restaurant
+      - POSTGRES_DB=rentx
+    volumes:
+      - pgdata:/data/postgres
+    network_mode: host
+
+volumes:
+  pgdata:
+    driver: local
