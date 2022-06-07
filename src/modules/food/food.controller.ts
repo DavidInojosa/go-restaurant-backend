@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Get,
+} from '@nestjs/common';
 import { FoodDTO } from './food.dto';
 import { FoodService } from './food.service';
 
@@ -9,6 +17,16 @@ export class FoodController {
   @Post()
   async create(@Body() data: FoodDTO) {
     return this.foodService.create(data);
+  }
+
+  @Get()
+  async getAll() {
+    return this.foodService.getAll();
+  }
+
+  @Get('/available')
+  async getAvailable() {
+    return this.foodService.getAvailable();
   }
 
   @Patch(':id')

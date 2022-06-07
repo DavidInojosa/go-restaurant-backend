@@ -32,7 +32,7 @@ model Clients {
 model Foods {
   id      String @id @default(uuid())
   idAdmin String
-  admin   Admin  @relation(fields: [idAdmin], references: [id])
+  admin   Admin? @relation(fields: [idAdmin], references: [id])
 
   title       String
   description String

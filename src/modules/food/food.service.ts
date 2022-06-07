@@ -63,4 +63,16 @@ export class FoodService {
       },
     });
   }
+
+  async getAll() {
+    return this.prisma.foods.findMany({});
+  }
+
+  async getAvailable() {
+    return this.prisma.foods.findMany({
+      where: {
+        available: true,
+      },
+    });
+  }
 }
