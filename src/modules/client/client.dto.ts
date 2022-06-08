@@ -4,3 +4,8 @@ export class ClientDTO {
   username: string;
   password: string;
 }
+
+export class IAuthenticateClient {
+  username: string;
+  password: string;
+}

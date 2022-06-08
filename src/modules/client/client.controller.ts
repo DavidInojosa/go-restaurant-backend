@@ -1,5 +1,5 @@
 import { Controller, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ClientDTO } from './client.dto';
+import { ClientDTO, IAuthenticateClient } from './client.dto';
 import { ClientService } from './client.service';
 
 @Controller('client')
@@ -9,6 +9,11 @@ export class ClientController {
   @Post()
   async create(@Body() data: ClientDTO) {
     return this.clientService.create(data);
+  }
+
+  @Post()
+  async signIn(@Body() data: IAuthenticateClient) {
+    return this.clientService.signIn(data);
   }
 
   @Patch(':id')
