@@ -1,5 +1,5 @@
 import { Controller, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { AdminDTO } from './admin.dto';
+import { AdminDTO, IAuthenticateAdmin } from './admin.dto';
 import { AdminService } from './admin.service';
 
 @Controller('admin')
@@ -9,6 +9,11 @@ export class AdminController {
   @Post()
   async create(@Body() data: AdminDTO) {
     return this.adminService.create(data);
+  }
+
+  @Post()
+  async signIn(@Body() data: IAuthenticateAdmin) {
+    return this.adminService.signIn(data);
   }
 
   @Patch(':id')

@@ -1,6 +1,8 @@
 import { PrismaService } from './../../database/prismaService';
-import { AdminDTO } from './admin.dto';
+import { AdminDTO, IAuthenticateAdmin } from './admin.dto';
 import { Injectable } from '@nestjs/common';
+import { compare, hash } from 'bcrypt';
+import { sign } from 'jsonwebtoken';
 
 @Injectable()
 export class AdminService {
@@ -9,18 +11,45 @@ export class AdminService {
   async create({ username, email, password, id }: AdminDTO) {
     const adminExists = await this.prisma.admin.findFirst({
       where: {
-        username: username,
+        username: {
+          mode: 'insensitive',
+        },
       },
     });
     if (adminExists) {
       throw new Error('Admin already exists');
     }
+    const hashPassword = await hash(password, 10);
 
     const admin = await this.prisma.admin.create({
-      data: { username, email, password, id },
+      data: { username, email, password: hashPassword, id },
     });
 
     return admin;
+  }
+
+  async signIn({ username, password }: IAuthenticateAdmin) {
+    const admin = await this.prisma.admin.findFirst({
+      where: { username },
+    });
+
+    if (!admin) {
+      throw new Error('Username or password invalid!');
+    }
+
+    const passwordMatch = await compare(password, admin.password);
+
+    if (!passwordMatch) {
+      throw new Error('Username or password invalid!');
+    }
+
+    //Gerar o token
+    const token = sign({ username }, '418a47914d81db9fe17f01ab1aed1c71', {
+      subject: admin.id,
+      expiresIn: '1d',
+    });
+
+    return token;
   }
 
   async update(id: string, data: AdminDTO) {

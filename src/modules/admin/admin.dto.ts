@@ -4,3 +4,8 @@ export class AdminDTO {
   username: string;
   password: string;
 }
+
+export class IAuthenticateAdmin {
+  username: string;
+  password: string;
+}
