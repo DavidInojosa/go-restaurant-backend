@@ -10,29 +10,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Admin {
+model User {
   id       String @id @default(uuid())
   email    String @unique
   username String @unique
   password String
+  role     String
 
   Foods Foods[]
-  @@map("admin")
-}
-
-model Clients {
-  id       String @id @default(uuid())
-  email    String @unique
-  username String @unique
-  password String
-
-  @@map("clients")
+  @@map("user")
 }
 
 model Foods {
-  id      String @id @default(uuid())
-  idAdmin String
-  admin   Admin? @relation(fields: [idAdmin], references: [id])
+  id     String  @id @default(uuid())
+  idUser String?
+  user   User?   @relation(fields: [idUser], references: [id])
 
   title       String
   description String

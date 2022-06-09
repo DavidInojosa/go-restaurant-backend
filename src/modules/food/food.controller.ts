@@ -8,7 +8,7 @@ import {
   Get,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/guards/ensureauthadmin.guard';
+import { AuthGuard } from 'src/guards/ensureauth.guard';
 import { FoodDTO } from './food.dto';
 import { FoodService } from './food.service';
 

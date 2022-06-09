@@ -1,5 +1,5 @@
 export class FoodDTO {
-  idAdmin?: string;
+  idUser?: string;
   title?: string;
   description?: string;
   price?: string;

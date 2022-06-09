@@ -7,7 +7,7 @@ export class FoodService {
   constructor(private prisma: PrismaService) {}
 
   async create({
-    idAdmin,
+    idUser,
     title,
     description,
     price,
@@ -24,7 +24,7 @@ export class FoodService {
     }
 
     const food = await this.prisma.foods.create({
-      data: { idAdmin, title, description, price, available, imageUrl },
+      data: { idUser, title, description, price, available, imageUrl },
     });
 
     return food;
@@ -32,7 +32,7 @@ export class FoodService {
 
   async update(
     id: string,
-    { idAdmin, title, description, price, available, imageUrl }: FoodDTO,
+    { idUser, title, description, price, available, imageUrl }: FoodDTO,
   ) {
     const foodExists = await this.prisma.foods.findUnique({
       where: { id },
@@ -42,7 +42,7 @@ export class FoodService {
     }
 
     return await this.prisma.foods.update({
-      data: { idAdmin, title, description, price, available, imageUrl },
+      data: { idUser, title, description, price, available, imageUrl },
       where: {
         id,
       },

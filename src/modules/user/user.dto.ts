@@ -1,10 +1,12 @@
-export class AdminDTO {
+export class UserDTO {
+  id?: string;
   email: string;
   username: string;
   password: string;
+  role: string;
 }
 
-export class IAuthenticateAdmin {
+export class UserAuthDTO {
   email: string;
   password: string;
 }
