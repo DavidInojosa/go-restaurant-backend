@@ -11,7 +11,7 @@ export class AdminController {
     return this.adminService.create(data);
   }
 
-  @Post()
+  @Post('/signIn')
   async signIn(@Body() data: IAuthenticateAdmin) {
     return this.adminService.signIn(data);
   }

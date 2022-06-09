@@ -8,11 +8,12 @@ import { sign } from 'jsonwebtoken';
 export class AdminService {
   constructor(private prisma: PrismaService) {}
 
-  async create({ username, email, password, id }: AdminDTO) {
+  async create({ username, email, password }: AdminDTO) {
     const adminExists = await this.prisma.admin.findFirst({
       where: {
         username: {
           mode: 'insensitive',
+          equals: username,
         },
       },
     });
@@ -22,29 +23,29 @@ export class AdminService {
     const hashPassword = await hash(password, 10);
 
     const admin = await this.prisma.admin.create({
-      data: { username, email, password: hashPassword, id },
+      data: { username, email, password: hashPassword },
     });
 
     return admin;
   }
 
-  async signIn({ username, password }: IAuthenticateAdmin) {
+  async signIn({ email, password }: IAuthenticateAdmin) {
     const admin = await this.prisma.admin.findFirst({
-      where: { username },
+      where: { email },
     });
 
     if (!admin) {
-      throw new Error('Username or password invalid!');
+      throw new Error('Email invalid!');
     }
 
     const passwordMatch = await compare(password, admin.password);
 
     if (!passwordMatch) {
-      throw new Error('Username or password invalid!');
+      throw new Error('Password invalid!');
     }
 
     //Gerar o token
-    const token = sign({ username }, '418a47914d81db9fe17f01ab1aed1c71', {
+    const token = sign({ email }, '418a47914d81db9fe17f01ab1aed1c71', {
       subject: admin.id,
       expiresIn: '1d',
     });
