@@ -9,6 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from 'src/guards/ensureauth.guard';
+import { PermissionGuard } from 'src/guards/permissionadmin.guard';
 import { FoodDTO } from './food.dto';
 import { FoodService } from './food.service';
 
@@ -22,12 +23,15 @@ export class FoodController {
   }
 
   @Get()
+  @UseGuards(AuthGuard)
+  @UseGuards(PermissionGuard)
   async getAll() {
     return this.foodService.getAll();
   }
 
   @Get('/available')
   @UseGuards(AuthGuard)
+  @UseGuards(PermissionGuard)
   async getAvailable() {
     return this.foodService.getAvailable();
   }
