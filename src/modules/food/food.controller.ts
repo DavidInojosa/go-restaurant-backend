@@ -6,7 +6,9 @@ import {
   Param,
   Delete,
   Get,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from 'src/guards/ensureauthadmin.guard';
 import { FoodDTO } from './food.dto';
 import { FoodService } from './food.service';
 
@@ -25,6 +27,7 @@ export class FoodController {
   }
 
   @Get('/available')
+  @UseGuards(AuthGuard)
   async getAvailable() {
     return this.foodService.getAvailable();
   }
