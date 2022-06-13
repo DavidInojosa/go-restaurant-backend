@@ -8,8 +8,10 @@ import {
   Get,
   UseGuards,
 } from '@nestjs/common';
+import Role from 'src/enums/role.enum';
 import { AuthGuard } from 'src/guards/ensureauth.guard';
-import { PermissionGuard } from 'src/guards/permissionadmin.guard';
+import { PermissionGuard } from 'src/guards/permission.guard';
+import { Roles } from 'src/decorators/roles.decorator';
 import { FoodDTO } from './food.dto';
 import { FoodService } from './food.service';
 
@@ -23,15 +25,17 @@ export class FoodController {
   }
 
   @Get()
-  @UseGuards(AuthGuard)
+  @Roles([Role.Admin])
   @UseGuards(PermissionGuard)
+  @UseGuards(AuthGuard)
   async getAll() {
     return this.foodService.getAll();
   }
 
   @Get('/available')
-  @UseGuards(AuthGuard)
+  @Roles([Role.Admin])
   @UseGuards(PermissionGuard)
+  @UseGuards(AuthGuard)
   async getAvailable() {
     return this.foodService.getAvailable();
   }
