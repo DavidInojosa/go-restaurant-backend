@@ -23,10 +23,7 @@ export class AuthGuard implements CanActivate {
     try {
       verify(token, '418a47914d81db9fe17f01ab1aed1c71') as IPayload;
       // md5 hash
-      console.log(
-        'verify',
-        verify(token, '418a47914d81db9fe17f01ab1aed1c71') as IPayload,
-      );
+     
       return true;
     } catch (err) {
       return false;

@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { verify } from 'jsonwebtoken';
-import { Observable } from 'rxjs';
 import { PrismaService } from 'src/database/prismaService';
+import { Reflector } from '@nestjs/core';
 
 interface IPayload {
   sub: string;
@@ -9,9 +9,13 @@ interface IPayload {
 
 @Injectable()
 export class PermissionGuard implements CanActivate {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private reflector: Reflector) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    const roles = this.reflector.get<string[]>('roles', context.getHandler());
+    if (!roles) {
+      return true;
+    }
     const request = context.switchToHttp().getRequest();
     const authHeader = request.headers;
 
@@ -20,7 +24,6 @@ export class PermissionGuard implements CanActivate {
     }
 
     const token = authHeader.authorization;
-
     try {
       const { sub } = verify(
         token,
@@ -32,9 +35,7 @@ export class PermissionGuard implements CanActivate {
         where: { id: sub },
       });
 
-      if (user.role === 'ADMIN') return true;
-
-      console.log('user', user);
+      return roles.includes(user.role);
     } catch (err) {
       return false;
     }
