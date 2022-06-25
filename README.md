@@ -28,6 +28,14 @@
 
 Backend desenvolvido em NodeJS com NestJS + PrismaORM, com PostgreSQL como banco de dados dentro de um container do Docker e Typescript sendo a linguagem utilizada.
 
+Regras:
+  - Admins podem criar e editar comidas novas no cardápio.
+  - Admins podem visualizar todas as comidas novas do cardápio, ou seja, deve haver verificação de permissão.
+  - Clientes podem ver apenas as comidas disponíveis no cardápio.
+  - Admins podem deletar comidas do cardápio.
+  - Qualquer usuário pode alterar as próprias informações.
+  - Para acessar qualquer rota é necessário que estejam autenticados na aplicação.
+
 ## Installation
 
 ```bash
