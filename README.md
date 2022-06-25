@@ -26,6 +26,8 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+Backend desenvolvido em NodeJS com NestJS + PrismaORM, com PostgreSQL como banco de dados dentro de um container do Docker e Typescript sendo a linguagem utilizada.
+
 ## Installation
 
 ```bash
